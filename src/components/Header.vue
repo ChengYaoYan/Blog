@@ -41,16 +41,14 @@
 
 <script>
 export default {
-  data: () => {
-    return {
-      isFold: true,
-      username: null,
-    };
-  },
+  data: () => ({
+    isFold: true,
+    username: null,
+  }),
   methods: {
     getUserInfo() {
       this.$axiosInstance
-        .get("/users/info")
+        .get('/users/info')
         .then((response) => {
           if (response.data.code === 0) {
             this.username = response.data.username;

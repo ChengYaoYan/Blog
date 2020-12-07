@@ -14,11 +14,11 @@
         <tbody>
           <tr v-for="article in articles" :key="article.id">
             <th scope="row">{{ article.title }}</th>
-            <td><i class="far fa-clock"></i> {{ article.date }}</td>
+            <td><i class="far fa-clock"></i> {{ article.create_time}}</td>
             <td>
-              <button class="btn btn-primary" @click="handleView">查看</button>
-              <button class="btn btn-success" @click="handleEdit">編輯</button>
-              <button class="btn btn-danger" @click="handleRemove">刪除</button>
+              <button class="btn btn-primary" @click="handleView(article.id)">查看</button>
+              <button class="btn btn-success" @click="handleEdit(article.id)">編輯</button>
+              <button class="btn btn-danger" @click="handleRemove(article.id)">刪除</button>
             </td>
           </tr>
         </tbody>
@@ -29,38 +29,52 @@
 
 <script>
 export default {
-  data: () => {
-    return {
-      articles: [
-        {
-          id: 1,
-          title: "javascript",
-          date: "2020-12-22",
-        },
-        {
-          id: 2,
-          title: "javascript",
-          date: "2020-12-22",
-        },
-        {
-          id: 3,
-          title: "javascript",
-          date: "2020-12-22",
-        },
-      ],
-    };
-  },
+  data: () => ({
+    articles: [],
+  }),
   methods: {
     handleAdd() {
-      this.$router.push({ name: "Edit" });
+      this.$router.push({ name: 'Edit' });
     },
-    handleView() {
-      window.open("/detail" + 1);
+    handleView(id) {
+      window.open(`/detail${id}`);
     },
-    handleEdit() {
-      this.$router.push({ name: "Edit" });
+    handleEdit(id) {
+      this.$router.push({ name: 'Edit', params: { id } });
     },
-    handleRemove() {},
+    handleRemove(id) {
+      this.$axiosInstance
+        .get('/articles/delete', {
+          params: {
+            article_id: id,
+          },
+        })
+        .then((response) => {
+          if (response.data.code === 0) {
+            console.log(response.data);
+            // eslint-disable-next-line no-restricted-globals
+            location.reload();
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    getOwnList() {
+      this.$axiosInstance
+        .get('/articles/ownList')
+        .then((response) => {
+          if (response.data.code === 0) {
+            this.articles = response.data.data;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  },
+  created() {
+    this.getOwnList();
   },
 };
 </script>

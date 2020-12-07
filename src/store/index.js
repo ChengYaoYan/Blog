@@ -1,12 +1,12 @@
-import Vue from "vue";
-import Vuex from "vuex";
+import Vue from 'vue';
+import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
     isSignIn: 0,
-    token: "",
+    token: '',
   },
 
   mutations: {
@@ -20,10 +20,10 @@ export default new Vuex.Store({
 
   actions: {
     fetchIsSignIn(context, flag) {
-      context.commit("changeIsSignIn", flag);
+      context.commit('changeIsSignIn', flag);
     },
     fetchToken(context, token) {
-      context.commit("setToken", token);
+      context.commit('setToken', token);
     },
   },
 });

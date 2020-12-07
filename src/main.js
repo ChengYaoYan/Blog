@@ -1,14 +1,14 @@
-import Vue from "vue";
-import App from "./App.vue";
-import router from "./router";
-import store from "./store";
-import "./assets/basic.scss";
-import "../static/fontawesome-free-5.12.0-web/css/all.min.css";
-import mavonEditor from "mavon-editor";
-import "mavon-editor/dist/css/index.css";
-import axios from "axios";
-import instance from "./jsonPlaceHolder.instance";
-import Cookie from "js-cookie";
+import Vue from 'vue';
+import mavonEditor from 'mavon-editor';
+import 'mavon-editor/dist/css/index.css';
+import axios from 'axios';
+import Cookie from 'js-cookie';
+import instance from './jsonPlaceHolder.instance';
+import App from './App.vue';
+import router from './router';
+import store from './store';
+import './assets/basic.scss';
+import '../static/fontawesome-free-5.12.0-web/css/all.min.css';
 
 Vue.use(mavonEditor);
 Vue.config.productionTip = false;
@@ -19,20 +19,18 @@ Vue.prototype.$axios = axios;
 
 /* 路由拦截 */
 router.beforeEach((to, from, next) => {
-  let token = Cookie.get("token");
+  const token = Cookie.get('token');
   if (token) {
-    store.dispatch("fetchToken", token);
+    store.dispatch('fetchToken', token);
   }
 
   if (store.state.token) {
-    store.dispatch("fetchIsSignIn", 1);
+    store.dispatch('fetchIsSignIn', 1);
     next();
+  } else if (to.meta.requireAuth) {
+    next({ path: '/login' });
   } else {
-    if (to.meta.requireAuth) {
-      next({ path: "/login" });
-    } else {
-      next();
-    }
+    next();
   }
 });
 
@@ -40,4 +38,4 @@ new Vue({
   router,
   store,
   render: (h) => h(App),
-}).$mount("#app");
+}).$mount('#app');

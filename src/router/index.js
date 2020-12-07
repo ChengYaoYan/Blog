@@ -1,49 +1,44 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
-import CommonLayout from "../components/CommonLayout.vue";
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import CommonLayout from '../components/CommonLayout.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/",
+    path: '/',
     component: CommonLayout,
     children: [
       {
-        path: "",
-        name: "Home",
-        component: () =>
-          import(/* webpackChunkName: "home" */ "../views/Home.vue"),
+        path: '',
+        name: 'Home',
+        component: () => import(/* webpackChunkName: "home" */ '../views/Home.vue'),
       },
       {
-        path: "detail:id",
-        name: "Detail",
-        component: () =>
-          import(/* webpackChunkName: "detail" */ "../views/Detail.vue"),
+        path: 'detail:id',
+        name: 'Detail',
+        component: () => import(/* webpackChunkName: "detail" */ '../views/Detail.vue'),
       },
       {
-        path: "personal",
-        name: "Personal",
-        component: () =>
-          import(/* webpackChunkName: "personal" */ "../views/Personal.vue"),
+        path: 'personal',
+        name: 'Personal',
+        component: () => import(/* webpackChunkName: "personal" */ '../views/Personal.vue'),
         meta: {
           requireAuth: false,
         },
       },
       {
-        path: "article",
-        name: "Article",
-        component: () =>
-          import(/* webpackChunkName: "article" */ "../views/Article.vue"),
+        path: 'article',
+        name: 'Article',
+        component: () => import(/* webpackChunkName: "article" */ '../views/Article.vue'),
         meta: {
           requireAuth: true,
         },
       },
       {
-        path: "article/edit",
-        name: "Edit",
-        component: () =>
-          import(/* webpackChunkName: "edit" */ "../views/Edit.vue"),
+        path: 'article/edit',
+        name: 'Edit',
+        component: () => import(/* webpackChunkName: "edit" */ '../views/Edit.vue'),
         meta: {
           requireAuth: true,
         },
@@ -51,10 +46,9 @@ const routes = [
     ],
   },
   {
-    path: "/login",
-    name: "Login",
-    component: () =>
-      import(/* webpackChunkName: "signIn" */ "../views/Login.vue"),
+    path: '/login',
+    name: 'Login',
+    component: () => import(/* webpackChunkName: "signIn" */ '../views/Login.vue'),
   },
   // {
   //   path: "/about",
@@ -69,7 +63,7 @@ const routes = [
 
 const router = new VueRouter({
   // linkActiveClass: 'router-link-active'
-  mode: "history",
+  mode: 'history',
   base: process.env.BASE_URL,
   routes,
 });

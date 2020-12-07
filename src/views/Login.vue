@@ -31,31 +31,30 @@
 </template>
 
 <script>
-import Cookie from "js-cookie";
+import Cookie from 'js-cookie';
+
 export default {
-  data: () => {
-    return {
-      status: 0, // 0 表示处于登陆界面, 1 表示处于注册界面
-      username: "",
-      password: "",
-      nickname: "",
-    };
-  },
+  data: () => ({
+    status: 0, // 0 表示处于登陆界面, 1 表示处于注册界面
+    username: '',
+    password: '',
+    nickname: '',
+  }),
 
   methods: {
     signIn() {
-      this.$store.dispatch("fetchIsSignIn", 1);
       this.$axiosInstance
-        .post("/users/login", {
+        .post('/users/login', {
           username: this.username,
           password: this.password,
         })
         .then((response) => {
           if (response.data.code === 0) {
-            Cookie.set("token", response.data.token);
+            Cookie.set('token', response.data.token);
+            this.$store.dispatch('fetchIsSignIn', 1);
           }
-          this.$store.dispatch("fetchToken", response.data.token);
-          this.$router.push({ name: "Home" });
+          this.$store.dispatch('fetchToken', response.data.token);
+          this.$router.push({ name: 'Home' });
         })
         .catch((err) => {
           console.log(err);
@@ -63,7 +62,7 @@ export default {
     },
     signUp() {
       this.$axiosInstance
-        .post("/users/register", {
+        .post('/users/register', {
           nickname: this.nickname,
           username: this.username,
           password: this.password,

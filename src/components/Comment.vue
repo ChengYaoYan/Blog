@@ -106,6 +106,9 @@
 
 <script>
 export default {
+  data: () => ({
+    submitText: '',
+  }),
   computed: {
     isSignIn() {
       return this.$store.state.isSignIn;
@@ -136,8 +139,6 @@ export default {
   width: 50px;
   border: 2px solid $clr-black;
   border-radius: $radius;
-}
-.name {
 }
 .text {
   flex: 1;

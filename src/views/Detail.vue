@@ -1,9 +1,9 @@
 <template>
   <div class="container">
-    <h2 class="title">You don't know javascript</h2>
-    <span class="date"><i class="fas fa-calendar-alt"></i> 2020-11-22-20</span>
+    <h2 class="title">{{ article.title }}</h2>
+    <span class="date"><i class="fas fa-calendar-alt"></i> {{ article.create_time }}</span>
     <mavon-editor
-      v-model="content"
+      v-model="article.content"
       :subfield="false"
       :defaultOpen="'preview'"
       :editable="false"
@@ -14,15 +14,35 @@
 </template>
 
 <script>
-import Comment from "@/components/Comment.vue";
+import Comment from '@/components/Comment.vue';
+
 export default {
-  data: () => {
-    return {
-      content: "a series book introduce javascript",
-    };
+  data: () => ({
+    article: {},
+  }),
+  methods: {
+    getArticleDetail() {
+      this.$axiosInstance
+        .get('/articles/detail', {
+          params: {
+            article_id: this.$route.params.id,
+          },
+        })
+        .then((response) => {
+          if (response.data.code === 0) {
+            this.article = response.data.data;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
   },
   components: {
     Comment,
+  },
+  created() {
+    this.getArticleDetail();
   },
 };
 </script>

@@ -1,30 +1,39 @@
 <template>
   <div>
     <div class="list">
-      <div class="card">
-        <router-link :to="{ name: 'Detail', params: { id: 1 } }">
-          <h2 class="title">you don't know javascript</h2>
+      <div class="card" v-for="item in blogList" :key="item.id">
+        <router-link :to="{ name: 'Detail', params: { id: item.id } }">
+          <h2 class="title">{{ item.title }}</h2>
         </router-link>
-        <p class="date">2020-11-22-20</p>
-      </div>
-      <div class="card">
-        <router-link :to="{ name: 'Detail', params: { id: 2 } }">
-          <h2 class="title">you don't know javascript</h2>
-        </router-link>
-        <p class="date">2020-11-22-20</p>
-      </div>
-      <div class="card">
-        <router-link :to="{ name: 'Detail', params: { id: 3 } }">
-          <h2 class="title">you don't know javascript</h2>
-        </router-link>
-        <p class="date">2020-11-22-20</p>
+        <p class="date">{{ item.create_time }}</p>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  data: () => ({
+    blogList: [],
+  }),
+  methods: {
+    getAllList() {
+      this.$axiosInstance
+        .get('/articles/allList')
+        .then((response) => {
+          if (response.data.code === 0) {
+            this.blogList = response.data.data;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  },
+  created() {
+    this.getAllList();
+  },
+};
 </script>
 
 <style lang="scss" scoped>
