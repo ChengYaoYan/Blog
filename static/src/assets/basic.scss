@@ -1,0 +1,197 @@
+/*
+==============
+Fonts
+==============
+*/
+@import url("https://fonts.googleapis.com/css?family=Open+Sans|Roboto:400,700&display=swap");
+
+/*
+==============
+Variables
+==============
+*/
+/* dark shades of primary color */
+$clr-primary-1: hsl(205, 86%, 17%) !default;
+$clr-primary-2: hsl(205, 77%, 27%) !default;
+$clr-primary-3: hsl(205, 72%, 37%) !default;
+$clr-primary-4: hsl(205, 63%, 48%) !default;
+/* primary/main color */
+$clr-primary-5: #49a6e9 !default;
+/* lighter shades of primary color */
+$clr-primary-6: hsl(205, 89%, 70%) !default;
+$clr-primary-7: hsl(205, 90%, 76%) !default;
+$clr-primary-8: hsl(205, 86%, 81%) !default;
+$clr-primary-9: hsl(205, 90%, 88%) !default;
+$clr-primary-10: hsl(205, 100%, 96%) !default;
+/* darkest grey - used for headings */
+$clr-grey-1: hsl(209, 61%, 16%) !default;
+$clr-grey-1: hsl(209, 61%, 16%) !default;
+$clr-grey-2: hsl(211, 39%, 23%) !default;
+$clr-grey-3: hsl(209, 34%, 30%) !default;
+$clr-grey-4: hsl(209, 28%, 39%) !default;
+/* grey used for paragraphs */
+$clr-grey-5: hsl(210, 22%, 49%) !default;
+$clr-grey-6: hsl(209, 23%, 60%) !default;
+$clr-grey-7: hsl(211, 27%, 70%) !default;
+$clr-grey-8: hsl(210, 31%, 80%) !default;
+$clr-grey-9: hsl(212, 33%, 89%) !default;
+$clr-grey-10: hsl(210, 36%, 96%) !default;
+$clr-white: #fff !default;
+$clr-red-dark: hsl(360, 67%, 44%) !default;
+$clr-red-light: hsl(360, 71%, 66%) !default;
+$clr-green-dark: hsl(125, 67%, 44%) !default;
+$clr-green-light: hsl(125, 71%, 56%) !default;
+$clr-black: #222 !default;
+$ff-primary: "Roboto", sans-serif !default;
+$ff-secondary: "Open Sans", sans-serif !default;
+$transition: all 0.3s linear !default;
+$spacing: 0.25rem !default;
+$radius: 0.5rem !default;
+$light-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !default;
+$dark-shadow: 0 5px 15px rgba(0, 0, 0, 0.2) !default;
+$max-width: 1170px !default;
+$min-width: 400px !default;
+$fixed-width: 620px !default;
+
+/*
+=================
+Global Styles
+=================
+*/
+
+*,
+::after,
+::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: $ff-secondary;
+  background: $clr-grey-10;
+  color: $clr-grey-1;
+  line-height: 1.5;
+  font-size: 0.875rem;
+}
+ul {
+  list-style-type: none;
+}
+a {
+  text-decoration: none;
+}
+img:not(.logo) {
+  width: 100%;
+}
+img {
+  display: block;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  letter-spacing: $spacing;
+  text-transform: capitalize;
+  line-height: 1.25;
+  margin-bottom: 0.75rem;
+  font-family: $ff-primary;
+}
+h1 {
+  font-size: 3rem;
+}
+h2 {
+  font-size: 2rem;
+}
+h3 {
+  font-size: 1.25rem;
+}
+h4 {
+  font-size: 0.875rem;
+}
+p {
+  margin-bottom: 1.25rem;
+  color: $clr-grey-5;
+}
+@media screen and (min-width: 800px) {
+  h1 {
+    font-size: 4rem;
+  }
+  h2 {
+    font-size: 2.5rem;
+  }
+  h3 {
+    font-size: 1.75rem;
+  }
+  h4 {
+    font-size: 1rem;
+  }
+  body {
+    font-size: 1rem;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    line-height: 1;
+  }
+}
+/* global classes */
+.btn {
+  text-transform: uppercase;
+  background: transparent;
+  color: $clr-black;
+  padding: 0.375rem 0.75rem;
+  letter-spacing: $spacing;
+  display: inline-block;
+  transition: $transition;
+  font-size: 0.875rem;
+  border: 2px solid $clr-black;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  border-radius: $radius;
+}
+.btn-primary {
+  color: $clr-white;
+  background-color: $clr-primary-5;
+}
+.btn-success {
+  color: $clr-white;
+  background-color: $clr-green-light;
+}
+.btn-danger {
+  color: $clr-white;
+  background-color: $clr-red-light;
+}
+.btn:hover {
+  color: $clr-white;
+  background: $clr-black;
+}
+.btn-primary:hover {
+  background-color: $clr-primary-2;
+}
+.btn-success:hover {
+  background-color: $clr-green-dark;
+}
+.btn-danger:hover {
+  background-color: $clr-red-dark;
+}
+/* section */
+.section {
+  padding: 5rem 0;
+}
+
+.section-center {
+  width: 90vw;
+  margin: 0 auto;
+  max-width: 1170px;
+}
+@media screen and (min-width: 992px) {
+  .section-center {
+    width: 95vw;
+  }
+}
+main {
+  min-height: 100vh;
+  display: grid;
+  place-content: center;
+}
