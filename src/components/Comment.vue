@@ -7,7 +7,7 @@
         <section class="section">
           <div class="person">
             <img class="avatar" />
-            <span class="name">Taylor Swift</span>
+            <span class="name">{{ username }}</span>
           </div>
           <textarea
             v-model="submitText"
@@ -15,89 +15,25 @@
             placeholder="leave your comment ..."
           />
         </section>
-        <button class="btn submit">提交評論</button>
+        <button class="btn submit" @click="submit">提交評論</button>
       </div>
       <!-- ALL COMMENTS -->
       <article class="comment">
         <h2 class="all">
-          全部評論<span>4</span>条
+          全部評論<span>{{ comments.length }}</span>条
           <hr class="slash" />
         </h2>
-        <div>
+        <div v-for="comment in comments" :key="comment.id">
           <section class="section">
             <div class="person">
               <img class="avatar" />
-              <span class="name">Taylor Swift</span>
+              <span class="name">{{ comment.nickname }}</span>
             </div>
             <p class="comment_text">
-              it's delicious it's delicious it's delicious it's delicious it's
-              it's delicious it's delicious it's delicious it's delicious it's
-              it's delicious it's delicious it's delicious it's delicious it's
-              it's delicious it's delicious it's delicious it's delicious it's
-              it's delicious it's delicious it's delicious it's delicious it's
-              it's delicious it's delicious it's delicious it's delicious it's
-              delicious it's delicious it's delicious it's delicious it's
-              delicious
+              {{ comment.comment_content }}
             </p>
           </section>
-          <span class="comment_date">2020-11-25</span>
-        </div>
-        <div>
-          <section class="section">
-            <div class="person">
-              <img class="avatar" />
-              <span class="name">Taylor Swift</span>
-            </div>
-            <p class="comment_text">
-              it's delicious it's delicious it's delicious it's delicious it's
-              it's delicious it's delicious it's delicious it's delicious it's
-              it's delicious it's delicious it's delicious it's delicious it's
-              it's delicious it's delicious it's delicious it's delicious it's
-              it's delicious it's delicious it's delicious it's delicious it's
-              it's delicious it's delicious it's delicious it's delicious it's
-              delicious it's delicious it's delicious it's delicious it's
-              delicious
-            </p>
-          </section>
-          <span class="comment_date">2020-11-25</span>
-        </div>
-        <div>
-          <section class="section">
-            <div class="person">
-              <img class="avatar" />
-              <span class="name">Taylor Swift</span>
-            </div>
-            <p class="comment_text">
-              it's delicious it's delicious it's delicious it's delicious it's
-              it's delicious it's delicious it's delicious it's delicious it's
-              it's delicious it's delicious it's delicious it's delicious it's
-              it's delicious it's delicious it's delicious it's delicious it's
-              it's delicious it's delicious it's delicious it's delicious it's
-              it's delicious it's delicious it's delicious it's delicious it's
-              delicious it's delicious it's delicious it's delicious it's
-              delicious
-            </p>
-          </section>
-          <span class="comment_date">2020-11-25</span>
-        </div>
-        <div>
-          <section class="section">
-            <div class="person">
-              <img class="avatar" />
-              <span class="name">Taylor Swift</span>
-            </div>
-            <p class="comment_text">
-              it's delicious it's delicious it's delicious it's delicious it's
-              it's delicious it's delicious it's delicious it's delicious it's
-              it's delicious it's delicious it's delicious it's delicious it's
-              it's delicious it's delicious it's delicious it's delicious it's
-              it's delicious it's delicious it's delicious it's delicious it's
-              it's delicious it's delicious it's delicious it's delicious it's
-              delicious it's delicious it's delicious it's delicious it's
-              delicious
-            </p>
-          </section>
-          <span class="comment_date">2020-11-25</span>
+          <span class="comment_date">{{ comment.create_time }}</span>
         </div>
       </article>
     </div>
@@ -108,11 +44,66 @@
 export default {
   data: () => ({
     submitText: '',
+    username: '',
+    comments: [],
   }),
   computed: {
     isSignIn() {
       return this.$store.state.isSignIn;
     },
+  },
+  methods: {
+    getUserInfo() {
+      if (this.isSignIn) {
+        this.$axiosInstance
+          .get('/users/info')
+          .then((response) => {
+            if (response.data.code === 0) {
+              this.username = response.data.username;
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    },
+    submit() {
+      this.$axiosInstance
+        .post('/comments/public', {
+          article_id: this.$route.params.id,
+          content: this.submitText,
+        })
+        .then((response) => {
+          if (response.data.code === 0) {
+            this.submitText = '';
+            // eslint-disable-next-line no-restricted-globals
+            location.reload();
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    getAllComments() {
+      this.$axiosInstance
+        .get('/comments/list', {
+          params: {
+            article_id: this.$route.params.id,
+          },
+        })
+        .then((response) => {
+          if (response.data.code === 0) {
+            this.comments = response.data.data;
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  },
+  created() {
+    this.getUserInfo();
+    this.getAllComments();
   },
 };
 </script>
@@ -136,7 +127,7 @@ export default {
 }
 .avatar {
   height: 60px;
-  width: 50px;
+  min-width: 60px;
   border: 2px solid $clr-black;
   border-radius: $radius;
 }
